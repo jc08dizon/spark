@@ -1,0 +1,4 @@
+interface:
+  display_name: "CIIT Add Form"
+  short_description: "Design a safe internal app form before implementation."
+  default_prompt: "Use $ciit-add-form to design a safe form for this feature."

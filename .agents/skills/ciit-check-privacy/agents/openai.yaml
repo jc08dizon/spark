@@ -1,0 +1,4 @@
+interface:
+  display_name: "CIIT Check Privacy"
+  short_description: "Review a feature idea for data privacy and classification."
+  default_prompt: "Use $ciit-check-privacy to review this feature idea for privacy risk."

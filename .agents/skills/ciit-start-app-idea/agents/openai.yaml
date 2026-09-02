@@ -1,0 +1,4 @@
+interface:
+  display_name: "CIIT Start App Idea"
+  short_description: "Turn a rough internal app idea into a clear buildable scope."
+  default_prompt: "Use $ciit-start-app-idea to shape my internal app idea into a buildable scope."

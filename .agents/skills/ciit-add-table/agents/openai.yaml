@@ -1,0 +1,4 @@
+interface:
+  display_name: "CIIT Add Table"
+  short_description: "Design a privacy-safe table or list view before implementation."
+  default_prompt: "Use $ciit-add-table to design a table view for this feature."

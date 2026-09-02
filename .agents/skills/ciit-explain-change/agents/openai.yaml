@@ -1,0 +1,4 @@
+interface:
+  display_name: "CIIT Explain Change"
+  short_description: "Explain changes and draft PR notes."
+  default_prompt: "Use $ciit-explain-change to explain what changed and how to test it."

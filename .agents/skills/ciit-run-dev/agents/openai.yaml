@@ -1,0 +1,4 @@
+interface:
+  display_name: "CIIT Run Dev"
+  short_description: "Start the local dev server for vibe coders, PSI, and developers."
+  default_prompt: "Use $ciit-run-dev to start or check the local development server for this repository."

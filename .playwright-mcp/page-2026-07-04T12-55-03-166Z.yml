@@ -1,0 +1,157 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e5]:
+      - generic [ref=e7]:
+        - img "CIIT" [ref=e8]
+        - generic [ref=e9]: S.P.A.R.K.
+      - list [ref=e13]:
+        - listitem [ref=e14]:
+          - link "All Tickets" [ref=e15] [cursor=pointer]:
+            - /url: /tickets
+            - img [ref=e16]
+            - generic [ref=e19]: All Tickets
+        - listitem [ref=e20]:
+          - link "New Ticket" [ref=e21] [cursor=pointer]:
+            - /url: /tickets/new
+            - img [ref=e22]
+            - generic [ref=e24]: New Ticket
+        - listitem [ref=e25]:
+          - link "Users" [ref=e26] [cursor=pointer]:
+            - /url: /users
+            - img [ref=e27]
+            - generic [ref=e32]: Users
+        - listitem [ref=e33]:
+          - link "Projects" [ref=e34] [cursor=pointer]:
+            - /url: /projects
+            - img [ref=e35]
+            - generic [ref=e37]: Projects
+      - list [ref=e39]:
+        - listitem [ref=e40]:
+          - button "SI Sample IT Officer IT Officer" [ref=e41]:
+            - generic [ref=e43]: SI
+            - generic [ref=e44]:
+              - generic [ref=e45]: Sample IT Officer
+              - generic [ref=e46]: IT Officer
+    - main [ref=e47]:
+      - generic [ref=e48]:
+        - button "Toggle Sidebar" [ref=e49]:
+          - img
+          - generic [ref=e50]: Toggle Sidebar
+        - separator [ref=e51]
+      - generic [ref=e53]:
+        - generic [ref=e54]:
+          - heading "All Tickets" [level=1] [ref=e55]
+          - button "New Ticket" [ref=e56] [cursor=pointer]
+        - generic [ref=e57]:
+          - link "All" [ref=e58] [cursor=pointer]:
+            - /url: /tickets
+            - generic [ref=e59]: All
+          - link "Open" [ref=e60] [cursor=pointer]:
+            - /url: /tickets?status=open
+            - generic [ref=e61]: Open
+          - link "In Progress" [ref=e62] [cursor=pointer]:
+            - /url: /tickets?status=in-progress
+            - generic [ref=e63]: In Progress
+          - link "Resolved" [ref=e64] [cursor=pointer]:
+            - /url: /tickets?status=resolved
+            - generic [ref=e65]: Resolved
+          - link "Closed" [ref=e66] [cursor=pointer]:
+            - /url: /tickets?status=closed
+            - generic [ref=e67]: Closed
+          - link "Reopened" [ref=e68] [cursor=pointer]:
+            - /url: /tickets?status=reopened
+            - generic [ref=e69]: Reopened
+          - link "Cancelled" [ref=e70] [cursor=pointer]:
+            - /url: /tickets?status=cancelled
+            - generic [ref=e71]: Cancelled
+        - table [ref=e74]:
+          - rowgroup [ref=e75]:
+            - row "Key Title Status Priority Type Reporter Assignee Created" [ref=e76]:
+              - columnheader "Key" [ref=e77]
+              - columnheader "Title" [ref=e78]
+              - columnheader "Status" [ref=e79]
+              - columnheader "Priority" [ref=e80]
+              - columnheader "Type" [ref=e81]
+              - columnheader "Reporter" [ref=e82]
+              - columnheader "Assignee" [ref=e83]
+              - columnheader "Created" [ref=e84]
+          - rowgroup [ref=e85]:
+            - row "ITSD-006 Cannot print to the 3F copier Open Medium Incident Sample Employee Unassigned 1d ago" [ref=e86]:
+              - cell "ITSD-006" [ref=e87]:
+                - link "ITSD-006" [ref=e88] [cursor=pointer]:
+                  - /url: /tickets/cmr4isec00001gctd3fjmoice
+              - cell "Cannot print to the 3F copier" [ref=e89]:
+                - generic [ref=e90]: Cannot print to the 3F copier
+              - cell "Open" [ref=e91]:
+                - generic [ref=e92]: Open
+              - cell "Medium" [ref=e94]
+              - cell "Incident" [ref=e95]
+              - cell "Sample Employee" [ref=e96]
+              - cell "Unassigned" [ref=e97]
+              - cell "1d ago" [ref=e98]
+            - row "ITSD-005 Replace UPS battery in server room Open Medium Incident Sample IT Officer Unassigned 1d ago" [ref=e99]:
+              - cell "ITSD-005" [ref=e100]:
+                - link "ITSD-005" [ref=e101] [cursor=pointer]:
+                  - /url: /tickets/cmr4ir98o0000gctd88j4ymd9
+              - cell "Replace UPS battery in server room" [ref=e102]:
+                - generic [ref=e103]: Replace UPS battery in server room
+              - cell "Open" [ref=e104]:
+                - generic [ref=e105]: Open
+              - cell "Medium" [ref=e107]
+              - cell "Incident" [ref=e108]
+              - cell "Sample IT Officer" [ref=e109]
+              - cell "Unassigned" [ref=e110]
+              - cell "1d ago" [ref=e111]
+            - row "ITSD-004 How do I access the new grading portal? Open Low Question Sample IT Officer Unassigned 1d ago" [ref=e112]:
+              - cell "ITSD-004" [ref=e113]:
+                - link "ITSD-004" [ref=e114] [cursor=pointer]:
+                  - /url: /tickets/cmr4ifi0h0009q8tdi1ulmyew
+              - cell "How do I access the new grading portal?" [ref=e115]:
+                - generic [ref=e116]: How do I access the new grading portal?
+              - cell "Open" [ref=e117]:
+                - generic [ref=e118]: Open
+              - cell "Low" [ref=e120]
+              - cell "Question" [ref=e121]
+              - cell "Sample IT Officer" [ref=e122]
+              - cell "Unassigned" [ref=e123]
+              - cell "1d ago" [ref=e124]
+            - row "ITSD-003 Wi-Fi keeps dropping in the faculty lounge Resolved Urgent Incident Sample IT Officer Sample IT Officer 1d ago" [ref=e125]:
+              - cell "ITSD-003" [ref=e126]:
+                - link "ITSD-003" [ref=e127] [cursor=pointer]:
+                  - /url: /tickets/cmr4ifi0b0008q8tdgcp45t7t
+              - cell "Wi-Fi keeps dropping in the faculty lounge" [ref=e128]:
+                - generic [ref=e129]: Wi-Fi keeps dropping in the faculty lounge
+              - cell "Resolved" [ref=e130]:
+                - generic [ref=e131]: Resolved
+              - cell "Urgent" [ref=e133]
+              - cell "Incident" [ref=e134]
+              - cell "Sample IT Officer" [ref=e135]
+              - cell "Sample IT Officer" [ref=e136]
+              - cell "1d ago" [ref=e137]
+            - row "ITSD-002 Install Adobe Premiere on MMA lab PCs In Progress Medium Service Request Sample Employee Sample IT Officer 1d ago" [ref=e138]:
+              - cell "ITSD-002" [ref=e139]:
+                - link "ITSD-002" [ref=e140] [cursor=pointer]:
+                  - /url: /tickets/cmr4ifi040007q8tdk9klqui1
+              - cell "Install Adobe Premiere on MMA lab PCs" [ref=e141]:
+                - generic [ref=e142]: Install Adobe Premiere on MMA lab PCs
+              - cell "In Progress" [ref=e143]:
+                - generic [ref=e144]: In Progress
+              - cell "Medium" [ref=e146]
+              - cell "Service Request" [ref=e147]
+              - cell "Sample Employee" [ref=e148]
+              - cell "Sample IT Officer" [ref=e149]
+              - cell "1d ago" [ref=e150]
+            - row "ITSD-001 Projector in Room 204 not working Open Urgent Incident Sample Employee Sample IT Officer 1d ago" [ref=e151]:
+              - cell "ITSD-001" [ref=e152]:
+                - link "ITSD-001" [ref=e153] [cursor=pointer]:
+                  - /url: /tickets/cmr4ifhzp0006q8tdpeo4vwlv
+              - cell "Projector in Room 204 not working" [ref=e154]:
+                - generic [ref=e155]: Projector in Room 204 not working
+              - cell "Open" [ref=e156]:
+                - generic [ref=e157]: Open
+              - cell "Urgent" [ref=e159]
+              - cell "Incident" [ref=e160]
+              - cell "Sample Employee" [ref=e161]
+              - cell "Sample IT Officer" [ref=e162]
+              - cell "1d ago" [ref=e163]
+  - region "Notifications alt+T"

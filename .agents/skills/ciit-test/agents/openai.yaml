@@ -1,0 +1,4 @@
+interface:
+  display_name: "CIIT Test"
+  short_description: "Run the standard local verification checks."
+  default_prompt: "Use $ciit-test to run the standard local verification checks for this repository."

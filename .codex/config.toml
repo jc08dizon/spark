@@ -1,0 +1,12 @@
+# Project-level Codex defaults for CIIT internal app templates.
+# Codex loads this file only after the project is trusted.
+
+approval_policy = "on-request"
+sandbox_mode = "workspace-write"
+web_search = "disabled"
+
+[sandbox_workspace_write]
+network_access = false
+
+[features]
+hooks = true

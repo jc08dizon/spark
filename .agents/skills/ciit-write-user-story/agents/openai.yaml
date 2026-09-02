@@ -1,0 +1,4 @@
+interface:
+  display_name: "CIIT Write User Story"
+  short_description: "Create user stories and acceptance criteria."
+  default_prompt: "Use $ciit-write-user-story to turn this feature idea into user stories and acceptance criteria."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "CIIT Guardrail Review"
+  short_description: "Review changes against CIIT framework guardrails."
+  default_prompt: "Use $ciit-guardrail-review to check this work against CIIT framework guardrails."

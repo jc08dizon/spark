@@ -1,0 +1,4 @@
+interface:
+  display_name: "CIIT New Feature"
+  short_description: "Scaffold a feature using the approved layered architecture."
+  default_prompt: "Use $ciit-new-feature to add a new feature using the CIIT layered architecture."

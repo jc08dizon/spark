@@ -1,0 +1,4 @@
+interface:
+  display_name: "CIIT Pre-PR Check"
+  short_description: "Run the full local quality gate."
+  default_prompt: "Use $ciit-pre-pr-check before opening a pull request."

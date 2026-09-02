@@ -1,0 +1,315 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  IT_OFFICER
+  EMPLOYEE
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum TicketType {
+  INCIDENT
+  SERVICE_REQUEST
+  QUESTION
+}
+
+// IT-Officer-only classification. Placeholder set of ~10 values pending
+// confirmation from the client's original category list.
+enum Category {
+  HARDWARE
+  SOFTWARE
+  NETWORK
+  ACCOUNT_ACCESS
+  EMAIL
+  PRINTER
+  SERVER
+  SECURITY
+  TELEPHONY
+  OTHER
+}
+
+enum NotificationType {
+  ASSIGNED
+  STATUS_CHANGED
+  CANCELLED
+  COMMENTED
+  MENTIONED
+}
+
+// BLOCKS is directional (source blocks target); DUPLICATES/RELATES_TO are
+// symmetric in meaning even though storage still has a source/target.
+// REOPENS is also directional: source is the new follow-up ticket, target
+// is the original that didn't actually get fixed.
+enum TicketLinkType {
+  DUPLICATES
+  RELATES_TO
+  BLOCKS
+  REOPENS
+}
+
+model Department {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  headId    String?  @unique
+  head      User?    @relation("DepartmentHead", fields: [headId], references: [id])
+  members   User[]   @relation("DepartmentMembers")
+  tickets   Ticket[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model User {
+  id       String @id @default(cuid())
+  name     String
+  email    String @unique
+  password String
+  role     Role   @default(EMPLOYEE)
+
+  departmentId String?
+  department   Department? @relation("DepartmentMembers", fields: [departmentId], references: [id])
+
+  headOfDepartment Department? @relation("DepartmentHead")
+
+  ledProjects      Project[]     @relation("ProjectLead")
+  reportedTickets  Ticket[]      @relation("TicketReporter")
+  assignedTickets  Ticket[]      @relation("TicketAssignee")
+  comments         Comment[]
+  attachments      Attachment[]
+  activityLogs     ActivityLog[]
+  notifications    Notification[]
+  watchedTickets   TicketWatcher[]
+  savedFilters     SavedFilter[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Project {
+  id               String   @id @default(cuid())
+  key              String   @unique
+  name             String
+  description      String?
+  isActive         Boolean  @default(true)
+  nextTicketNumber Int      @default(1)
+
+  leadId String?
+  lead   User?   @relation("ProjectLead", fields: [leadId], references: [id])
+
+  tickets Ticket[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model TicketStatus {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  slug      String   @unique
+  color     String
+  sortOrder Int
+  isClosed  Boolean  @default(false)
+  tickets   Ticket[]
+}
+
+model Ticket {
+  id           String     @id @default(cuid())
+  title        String
+  description  String
+  ticketNumber Int
+  priority     Priority   @default(MEDIUM)
+  type         TicketType @default(INCIDENT)
+  category     Category?
+
+  cancellationReason String?
+
+  // Milestone 6 (SLA-lite): officer-set, nullable — overdue is derived as
+  // dueDate < now && !status.isClosed, not stored.
+  dueDate DateTime?
+
+  projectId String
+  project   Project @relation(fields: [projectId], references: [id])
+
+  reporterId String
+  reporter   User   @relation("TicketReporter", fields: [reporterId], references: [id])
+
+  assigneeId String?
+  assignee   User?   @relation("TicketAssignee", fields: [assigneeId], references: [id])
+
+  departmentId String
+  department   Department @relation(fields: [departmentId], references: [id])
+
+  statusId String
+  status   TicketStatus @relation(fields: [statusId], references: [id])
+
+  comments      Comment[]
+  attachments   Attachment[]
+  activityLogs  ActivityLog[]
+  notifications Notification[]
+  watchers      TicketWatcher[]
+  linksAsSource TicketLink[]    @relation("LinkSource")
+  linksAsTarget TicketLink[]    @relation("LinkTarget")
+  labels        TicketLabel[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([projectId, ticketNumber])
+}
+
+// Reporter and assignee are auto-added as watchers (ticket creation /
+// assignment); anyone with ticket visibility can also opt in via the
+// watch toggle, and @mentioning someone auto-adds them too. Notification
+// fan-out (notifyTicketEvent) reads this table for recipients.
+model TicketWatcher {
+  id       String @id @default(cuid())
+  ticketId String
+  ticket   Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  userId   String
+  user     User   @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+
+  @@unique([ticketId, userId])
+}
+
+// Milestone 7: flat ticket-to-ticket links (not a parent/child hierarchy —
+// see roadmap's "deliberately not planned" table ruling out sub-tasks/epics).
+model TicketLink {
+  id       String         @id @default(cuid())
+  sourceId String
+  source   Ticket         @relation("LinkSource", fields: [sourceId], references: [id], onDelete: Cascade)
+  targetId String
+  target   Ticket         @relation("LinkTarget", fields: [targetId], references: [id], onDelete: Cascade)
+  linkType TicketLinkType
+
+  createdAt DateTime @default(now())
+
+  @@unique([sourceId, targetId, linkType])
+}
+
+// Officer-managed free-form tags. Hard-deleting a label untags whatever
+// tickets had it (TicketLabel cascades) — labels carry no historical/keying
+// significance the way a Project key does, so no soft-delete flag needed.
+model Label {
+  id    String @id @default(cuid())
+  name  String @unique
+  color String
+
+  tickets TicketLabel[]
+
+  createdAt DateTime @default(now())
+}
+
+model TicketLabel {
+  id       String @id @default(cuid())
+  ticketId String
+  ticket   Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  labelId  String
+  label    Label  @relation(fields: [labelId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([ticketId, labelId])
+}
+
+// Personal convenience feature, not admin/structural — any authenticated
+// user can save filters for their own list views (both Officers on
+// /tickets or /my-tasks, and Employees on their own /tickets).
+model SavedFilter {
+  id       String @id @default(cuid())
+  userId   String
+  user     User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name     String
+  basePath String
+  query    String
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, basePath, name])
+}
+
+model Comment {
+  id       String @id @default(cuid())
+  body     String
+  ticketId String
+  ticket   Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id])
+
+  attachments Attachment[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// A file belongs to a ticket always, and optionally to the specific comment
+// it was uploaded alongside (null when attached from the ticket-creation
+// form). storagePath is a generated on-disk filename, never the user's
+// original name — filename is kept separately for display/download so we
+// never trust client input as a filesystem path.
+model Attachment {
+  id          String @id @default(cuid())
+  filename    String
+  mimeType    String
+  size        Int
+  storagePath String
+
+  ticketId String
+  ticket   Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+
+  commentId String?
+  comment   Comment? @relation(fields: [commentId], references: [id], onDelete: Cascade)
+
+  uploaderId String
+  uploader   User   @relation(fields: [uploaderId], references: [id])
+
+  createdAt DateTime @default(now())
+}
+
+// Audit trail of status/assignee/priority changes per ticket.
+model ActivityLog {
+  id       String @id @default(cuid())
+  ticketId String
+  ticket   Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  userId   String
+  user     User   @relation(fields: [userId], references: [id])
+
+  field    String
+  oldValue String?
+  newValue String?
+
+  createdAt DateTime @default(now())
+}
+
+// In-app only (no email, no queue workers). message is a pre-rendered
+// human-readable string rather than structured fields the UI recomposes —
+// simplest option for a single notification list.
+model Notification {
+  id     String           @id @default(cuid())
+  userId String
+  user   User             @relation(fields: [userId], references: [id])
+
+  ticketId String?
+  ticket   Ticket? @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+
+  type    NotificationType
+  message String
+  isRead  Boolean          @default(false)
+
+  createdAt DateTime @default(now())
+}
